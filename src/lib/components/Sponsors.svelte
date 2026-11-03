@@ -247,7 +247,7 @@
                       alt={item.name}
                       loading="lazy"
                       decoding="async"
-                      class="relative mx-auto h-[clamp(2rem,10vw,8rem)] z-20 w-full max-w-32 object-contain"
+                      class="relative mx-auto h-[clamp(1.75rem,7vw,5.5rem)] z-20 w-full max-w-32 object-contain"
                     />
                     <p
                       class="text-white md:text-[clamp(0.5rem,2vw,2rem)] md:leading-[1.05] md:pt-[clamp(0.5rem,1.2vw,1.2rem)]"
@@ -260,7 +260,7 @@
             </ul>
             {#if note && rowIndex === rows.length - 1}
               <p
-                class="relative z-20 mt-[clamp(0.75rem,2vw,1.75rem)] px-[clamp(2rem,15vw,15rem)] text-center font-body text-[clamp(0.85rem,1.4vw,1.35rem)] text-white text-shadow-[0_0_8px_var(--color-haven-green-deep)]"
+                class="relative z-20 mt-[clamp(0.25rem,0.8vw,0.75rem)] px-[clamp(2rem,15vw,15rem)] text-center font-body text-[clamp(0.85rem,1.4vw,1.35rem)] text-white text-shadow-[0_0_8px_var(--color-haven-green-deep)]"
               >
                 {note.text}
                 <a

@@ -42,14 +42,14 @@ export const site: SiteData = {
     "14–15 nov · Paris 11e",
   ],
   hero: {
-    mapLabel: "Haven dans 200+ villes",
+    mapLabel: "Haven dans plus de 200 villes !",
     scrollLabel: "en savoir plus",
     contact: "Nous écrire :",
     contactEmail,
     venue: { name: venue.name, address: venue.address },
     venueTbd: "Lieu à venir",
     venueLink: venue.mapUrl,
-    signup: { placeholder: "toi@email.fr", button: "je m’inscris !" },
+    signup: { placeholder: "ton@email.fr", button: "je m’inscris !" },
   },
   about: {
     title: "C’est quoi une game jam ?",
