@@ -1,0 +1,269 @@
+<script lang="ts">
+  import { event, eventPoc, organizeCtaPoc } from "$lib/data/content";
+  import { defaultSiteData } from "$lib/data/site";
+  import { cssUrl, type SiteImages } from "$lib/data/images";
+  import type { EventVenue } from "$lib/data/types";
+  import SignupForm from "./SignupForm.svelte";
+  import VideoPanel from "./VideoPanel.svelte";
+
+  const ORGANIZE_PATH = "/api/auth/redirect";
+
+  interface Props {
+    title?: readonly string[];
+    tagline?: readonly string[];
+    poc: boolean;
+    /** Attendee signup form; absent falls the box back to the organizer signup. */
+    signupUrl?: string | undefined;
+    /** Referral code from `?r=`, forwarded to the signup form. */
+    referral?: string | null;
+    mapAria?: string;
+    /** Words before `contactEmail` in the link under the signup box. */
+    contact?: string;
+    /** The city organizers' address; the link shows on city pages only. */
+    contactEmail?: string;
+    /** Caption pointing at the map of events. */
+    mapLabel?: string;
+    /** Caption on the arrow down to the rest of the page. */
+    scrollLabel?: string;
+    signup?: { placeholder: string; button: string };
+    /** Omitted on pages without a venue line; null shows `venueTbd`. */
+    venue?: EventVenue | null;
+    venueTbd?: string;
+    /** Replaces the map search for the venue's address; ignored until there is
+     * a venue to show. */
+    venueLink?: string;
+    images?: SiteImages;
+  }
+
+  let {
+    poc,
+    title = poc ? eventPoc.title : event.title,
+    tagline = poc ? eventPoc.tagline : event.tagline,
+    signupUrl,
+    referral = null,
+    mapAria = "Haven events map",
+    contact,
+    contactEmail,
+    mapLabel = defaultSiteData.hero.mapLabel,
+    scrollLabel = defaultSiteData.hero.scrollLabel,
+    signup = defaultSiteData.hero.signup,
+    venue,
+    venueTbd = defaultSiteData.hero.venueTbd,
+    venueLink,
+    images = defaultSiteData.images,
+  }: Props = $props();
+
+  // Carry whatever the visitor typed into the signup box over to the organizer
+  // signup, so they do not have to type their address twice.
+  let email = $state("");
+  let emailValid = $state(false);
+
+  // The map's caption and arrow sit above SiteHeader's fixed clouds while the
+  // page is at the top, then drop back under them like the rest of the hero
+  // once it scrolls. For that, neither `#top` (no `isolate`, and the page
+  // wrapper has no z-index) nor the map panel (no z-index or transform) may
+  // be a stacking context of its own.
+  let scrolled = $state(false);
+
+  // The page can load already scrolled (a reload, or a #hash target).
+  $effect(() => {
+    scrolled = window.scrollY > 10;
+  });
+
+  const mapLabelLayer = $derived(scrolled ? "z-20" : "z-35");
+
+  const signupAction = $derived.by(() => {
+    if (!signupUrl) return undefined;
+    const url = new URL(signupUrl);
+    if (referral) url.searchParams.set("r", referral);
+    return url.toString();
+  });
+
+  const venueMapUrl = $derived.by(() => {
+    if (!venue) return undefined;
+    if (venueLink) return venueLink;
+    return venue.address
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name}, ${venue.address}`)}`
+      : undefined;
+  });
+
+  const formAction = $derived(signupAction ?? ORGANIZE_PATH);
+
+  const organizeHref = $derived(
+    emailValid && email
+      ? `${ORGANIZE_PATH}?email=${encodeURIComponent(email)}`
+      : ORGANIZE_PATH,
+  );
+</script>
+
+<svelte:window onscroll={() => (scrolled = window.scrollY > 10)} />
+
+<svelte:head>
+  {#if signupUrl}<link rel="preconnect" href={new URL(signupUrl).origin} />{/if}
+</svelte:head>
+
+<section
+  id="top"
+  style="background-image: {cssUrl(images.heroBackground)}"
+  class="rule-frame relative flex min-h-svh flex-col bg-haven-green bg-cover bg-top bg-no-repeat px-4 pb-[36vw] sm:pb-[clamp(3rem,10vw,min(8rem,8svh))] [--frame-gap:clamp(0.75rem,1.1vw,1rem)] [--frame-offset:clamp(0.5rem,1.1vw,1rem)] [--frame-weight:clamp(3px,0.35vw,5px)]"
+>
+  <div class={poc ? "hidden" : "block sm:contents"}>
+    <div
+      class="pointer-events-none relative z-25 flex flex-1 items-center justify-center mt-[clamp(5rem,14vw,20rem)] sm:mt-[clamp(1rem,2vw,15rem)]"
+    >
+      <div
+        class="mx-auto flex w-full flex-col items-center px-[clamp(1rem,4vw,8rem)] text-center sm:pl-[clamp(1rem,4vw,8rem)] sm:items-start sm:pr-[clamp(20rem,45vw,60rem)]"
+      >
+        <div class="grid grid-cols-2 max-w-[1700px]">
+          <img
+            src={images.logo}
+            alt="Hack Club Haven"
+            width="778"
+            height="445"
+            class="w-[120%] max-w-none"
+          />
+          <h1
+            class="m-0 font-display text-[clamp(1rem,8vw,10rem)] leading-[clamp(1rem,6vw,8rem)]  text-white translate-y-[75%] translate-x-[-10%] sm:text-hero sm:leading-[clamp(1rem,4vw,8rem)]"
+          >
+            {title.join(" ")}
+          </h1>
+        </div>
+
+        <p
+          class="glow-orange mt-[clamp(1rem,10vw,10rem)] text-[clamp(1rem,4vw,8rem)] leading-[clamp(1rem,4.75vw,5rem)] font-body text-center text-white sm:ml-[clamp(1rem,3vw,8rem)] sm:mt-[clamp(1rem,5vw,10rem)] sm:text-[clamp(1.25rem,2vw,4rem)] sm:leading-[clamp(1.5rem,2.75vw,5rem)] sm:text-start"
+        >
+          {#each tagline as part, i}
+            <span class={i === 0 ? "whitespace-nowrap" : "block"}>{part}</span>
+          {/each}
+        </p>
+
+        {#if venue !== undefined}
+          <svelte:element
+            this={venueMapUrl ? "a" : "p"}
+            href={venueMapUrl}
+            target={venueMapUrl ? "_blank" : undefined}
+            rel={venueMapUrl ? "noopener noreferrer" : undefined}
+            class="pointer-events-auto glow-orange mt-[clamp(0.75rem,1.5vw,1.5rem)] flex items-start gap-2 font-body text-start text-[clamp(0.9rem,3.5vw,1.25rem)] text-white sm:ml-[clamp(1rem,3vw,8rem)] sm:text-[clamp(0.9rem,1.4vw,1.75rem)] {venueMapUrl
+              ? 'underline decoration-from-font underline-offset-4 transition-opacity hover:opacity-80'
+              : ''}"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="currentColor"
+              class="mt-[0.15em] size-[1em] shrink-0"
+            >
+              <path
+                d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"
+              />
+            </svg>
+            <span>{venue?.name ?? venueTbd}</span>
+          </svelte:element>
+        {/if}
+
+        <SignupForm
+          {poc}
+          action={formAction}
+          id="signup-email"
+          placeholder={signup.placeholder}
+          button={signup.button}
+          arrow={images.signupArrow}
+          bind:email
+          bind:valid={emailValid}
+          class="pointer-events-auto mt-[clamp(1rem,1vw,5rem)] w-[min(90%,28rem)] sm:ml-[clamp(1rem,3vw,8rem)] sm:w-[clamp(15rem,35vw,60rem)]"
+        />
+        {#if contactEmail}
+          <a
+            href="mailto:{contactEmail}"
+            class="pointer-events-auto glow-orange mt-[clamp(0.75rem,1.5vw,1.25rem)] font-body text-[clamp(0.9rem,3.5vw,1.25rem)] text-white underline decoration-from-font underline-offset-4 transition-opacity hover:opacity-80 sm:ml-[clamp(1rem,3vw,8rem)] sm:text-start sm:text-[clamp(0.9rem,1.6vw,1.75rem)]"
+          >
+            {contact} {contactEmail}
+          </a>
+        {/if}
+      </div>
+    </div>
+
+    <div
+      class="absolute z-10 shell left-1/2 -translate-x-1/2 bottom-[clamp(3rem,3vw,10rem)] justify-center"
+    >
+      <a href="#about" class="flex-col items-center gap-1">
+        <span
+          class="font-body text-[clamp(0.5rem,4vw,3rem)] text-white/60 md:text-[clamp(0.5rem,2vw,3rem)]"
+          >{scrollLabel}</span
+        >
+        <img
+          src={images.scrollArrow}
+          alt=""
+          aria-hidden="true"
+          width="207"
+          height="69"
+          class="w-[clamp(2rem,16vw,12rem)] -scale-y-100 md:w-[clamp(2rem,8vw,12rem)]"
+        />
+      </a>
+    </div>
+
+    <a
+      href="https://haven.hackclub.com/map"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={[
+        "panel group relative mx-auto mt-[clamp(2rem,8vw,8rem)] w-[min(85%,28rem)] h-[clamp(14rem,50vw,40rem)] sm:absolute sm:right-10 sm:top-1/2 sm:mx-[clamp(1.5rem,4vw,8rem)] sm:[--map-h:clamp(10rem,25vw,50rem)] sm:mt-[calc(clamp(2rem,4vw,8rem)_-_var(--map-h)/2)] sm:w-[clamp(15rem,35vw,52rem)] sm:h-[var(--map-h)] lg:w-[clamp(15rem,35vw,80rem)]",
+        poc ? "hidden" : "block",
+      ]}
+      aria-label={mapAria}
+    >
+      <div
+        class="absolute inset-0 overflow-hidden rounded-[inherit] transition-transform group-hover:scale-[1.04] group-active:scale-100"
+      >
+        <img
+          src="/images/paris-map.webp"
+          alt=""
+          width="934"
+          height="668"
+          class="h-full w-full object-cover"
+        />
+        <span
+          class="absolute right-2 bottom-2 rounded-full bg-white/85 px-2 py-0.5 font-sans text-[0.65rem] text-black/70"
+          >Protomaps © OpenStreetMap</span
+        >
+      </div>
+
+      <img
+        src={images.heroArrow}
+        alt=""
+        aria-hidden="true"
+        class="absolute rotate-24 right-[clamp(1rem,4vw,8rem)] top-[clamp(0rem,0vw,10rem)] {mapLabelLayer} w-[clamp(2rem,12vw,6rem)] sm:right-[clamp(1rem,12vw,30rem)] sm:top-[clamp(-10rem,-3vw,0rem)] sm:w-[clamp(2rem,8vw,20rem)] hidden sm:block"
+      />
+      <img
+        src={images.heroArrowMobile}
+        alt=""
+        aria-hidden="true"
+        class="absolute rotate-24 right-[clamp(1rem,6vw,10rem)] top-[clamp(-10rem,-2vw,0rem)] {mapLabelLayer} w-[clamp(2rem,12vw,6rem)] block sm:hidden"
+      />
+      <p
+        class="relative {mapLabelLayer} text-white text-center -translate-y-[120%] text-[clamp(0.875rem,4vw,10rem)] sm:text-haven-butter sm:-rotate-8 sm:text-[clamp(1rem,3vw,10rem)] sm:-translate-y-[120%] sm:-translate-x-[40%]"
+      >
+        {mapLabel}
+      </p>
+    </a>
+
+    <img
+      src={images.hedgehog}
+      alt=""
+      aria-hidden="true"
+      width="422"
+      height="308"
+      class="pointer-events-none absolute object-contain bottom-0 right-[6%] z-20 w-[clamp(8rem,40vw,14rem)] scale-x-[-1] aspect-422/308 select-none sm:right-[9.6%] sm:max-h-[30svh] sm:w-[15%] sm:max-w-[21rem]"
+    />
+
+    <img
+      src={images.heroForeground}
+      alt=""
+      aria-hidden="true"
+      width="1414"
+      height="501"
+      class="pointer-events-none absolute inset-x-0 bottom-0 z-20 w-full max-w-none translate-y-[55%] select-none"
+    />
+  </div>
+
+</section>
