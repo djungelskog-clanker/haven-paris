@@ -18,7 +18,7 @@
     note,
   }: Props = $props();
 
-  const ROW_SIZE = 3;
+  const ROW_SIZE = 4;
 
   const rows = $derived.by(() => {
     const out: Sponsor[][] = [];

@@ -281,6 +281,11 @@ export const site: SiteData = {
         image: "/images/sponsors/paris/ageca.svg",
         href: "https://www.ageca.org/",
       },
+      {
+        name: "Tuta",
+        image: "/images/sponsors/paris/tuta.svg",
+        href: "https://tuta.com/",
+      },
     ],
   },
   faq: {
