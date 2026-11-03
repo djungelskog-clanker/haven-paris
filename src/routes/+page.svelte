@@ -6,6 +6,7 @@
   import Pitch from "$lib/components/Pitch.svelte";
   import Steps from "$lib/components/Steps.svelte";
   import Schedule from "$lib/components/Schedule.svelte";
+  import Prizes from "$lib/components/Prizes.svelte";
   import Teachers from "$lib/components/Teachers.svelte";
   import Venue from "$lib/components/Venue.svelte";
   import PastEvents from "$lib/components/PastEvents.svelte";
@@ -82,6 +83,8 @@
     tbd={site.schedule.tbd}
     {images}
   />
+
+  <Prizes hedgehog={images.hedgehog} />
 
   <Teachers {contactEmail} daven={images.scheduleDaven} />
 
