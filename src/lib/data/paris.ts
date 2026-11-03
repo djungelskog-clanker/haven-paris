@@ -12,6 +12,9 @@ const PARENT_GUIDE =
   "https://docs.google.com/document/d/1NKjI_6sksQOKyrdeE1wEJZYSWEvix8LB74sIF2vokoI/edit?usp=sharing";
 const MAILTO = `mailto:${contactEmail}`;
 
+/** Haven Paris's HCB page, where every transaction is public. */
+export const financesUrl = "https://hcb.hackclub.com/haven-paris";
+
 export const venue = {
   name: "AGECA",
   address: "177 rue de Charonne, 75011 Paris",
@@ -50,7 +53,7 @@ export const site: SiteData = {
   },
   about: {
     title: "C’est quoi une game jam ?",
-    body: "C’est un événement de code entre potes où tu crées un jeu vidéo, avec de la bouffe gratos en prime !",
+    body: "C’est un événement de code entre potes où tu crées un jeu vidéo, avec repas et snacks offerts !",
     perks: [
       {
         id: "build",
@@ -90,7 +93,7 @@ export const site: SiteData = {
       },
       {
         id: "food",
-        title: "Bouffe & prix gratos",
+        title: "Repas & prix offerts",
         side: "start",
         blurb: ["impossible de dire non à des snacks gratuits :)"],
         photos: [
@@ -184,7 +187,7 @@ export const site: SiteData = {
           {
             time: "18h",
             title: "Fin de la journée",
-            body: "Tout le monde rentre dormir chez soi.",
+            body: "On se retrouve demain à 9h30 !",
           },
         ],
       },
@@ -273,6 +276,11 @@ export const site: SiteData = {
         image: "/images/sponsors/paris/owlcat.svg",
         href: "https://owlcat.games/",
       },
+      {
+        name: "AGECA",
+        image: "/images/sponsors/paris/ageca.svg",
+        href: "https://www.ageca.org/",
+      },
     ],
   },
   faq: {
@@ -316,14 +324,6 @@ export const site: SiteData = {
         a: [
           {
             text: "Un ordinateur portable et son chargeur, une gourde, et ta bonne humeur. Pas d’ordi ? Écris-nous avant l’événement.",
-          },
-        ],
-      },
-      {
-        q: "On dort sur place ?",
-        a: [
-          {
-            text: "Non. Haven Paris se déroule de jour, le samedi et le dimanche. Tout le monde rentre dormir chez soi le samedi soir.",
           },
         ],
       },

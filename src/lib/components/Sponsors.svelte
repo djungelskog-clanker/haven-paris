@@ -7,9 +7,16 @@
     heading: string;
     items: Sponsor[];
     images?: SiteImages;
+    /** A line under the logos, e.g. where to see the event's finances. */
+    note?: { text: string; link: { label: string; href: string } };
   }
 
-  let { heading, items, images = defaultSiteData.images }: Props = $props();
+  let {
+    heading,
+    items,
+    images = defaultSiteData.images,
+    note,
+  }: Props = $props();
 
   const ROW_SIZE = 3;
 
@@ -251,6 +258,20 @@
                 </li>
               {/each}
             </ul>
+            {#if note && rowIndex === rows.length - 1}
+              <p
+                class="relative z-20 mt-[clamp(0.75rem,2vw,1.75rem)] px-[clamp(2rem,15vw,15rem)] text-center font-body text-[clamp(0.85rem,1.4vw,1.35rem)] text-white text-shadow-[0_0_8px_var(--color-haven-green-deep)]"
+              >
+                {note.text}
+                <a
+                  href={note.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="underline decoration-from-font underline-offset-4 hover:opacity-80"
+                  >{note.link.label}</a
+                >
+              </p>
+            {/if}
           </div>
         {/each}
       </div>

@@ -13,7 +13,7 @@
   import Faq from "$lib/components/Faq.svelte";
   import SiteFooter from "$lib/components/SiteFooter.svelte";
   import { cssUrl } from "$lib/data/images";
-  import { contactEmail, signupUrl, site, venue } from "$lib/data/paris";
+  import { contactEmail, financesUrl, signupUrl, site, venue } from "$lib/data/paris";
 
   const images = site.images;
 
@@ -98,6 +98,10 @@
   <Sponsors
     heading={site.sponsors.heading}
     items={site.sponsors.items}
+    note={{
+      text: "Haven Paris est financé de façon transparente :",
+      link: { label: "voir nos comptes sur HCB", href: financesUrl },
+    }}
     {images}
   />
 

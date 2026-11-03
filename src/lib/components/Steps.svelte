@@ -24,7 +24,7 @@
   const frSteps: { x: number; y: number; w: number; text: { text: string; mark?: boolean }[] }[] = [
     { x: 22.4, y: 29.6, w: 24.6, text: [{ text: "Inscris-toi à " }, { text: "Haven Paris", mark: true }] },
     { x: 20.9, y: 51.6, w: 23.2, text: [{ text: "Rencontre des " }, { text: "potes", mark: true }, { text: " et forme une équipe" }] },
-    { x: 62.4, y: 33.3, w: 22.6, text: [{ text: "Suis des " }, { text: "ateliers", mark: true }, { text: ", profite de la " }, { text: "bouffe", mark: true }, { text: " et des " }, { text: "goodies", mark: true }, { text: " !" }] },
+    { x: 62.4, y: 33.3, w: 22.6, text: [{ text: "Suis des " }, { text: "ateliers", mark: true }, { text: ", profite des " }, { text: "repas", mark: true }, { text: " et des " }, { text: "goodies", mark: true }, { text: " !" }] },
     { x: 61.4, y: 55, w: 21.5, text: [{ text: "Crée ton jeu et " }, { text: "publie-le", mark: true }, { text: " sur itch.io" }] },
   ];
 </script>
