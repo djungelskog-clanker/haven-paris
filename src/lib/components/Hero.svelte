@@ -241,7 +241,7 @@
         class="absolute rotate-24 right-[clamp(1rem,6vw,10rem)] top-[clamp(-10rem,-2vw,0rem)] {mapLabelLayer} w-[clamp(2rem,12vw,6rem)] block sm:hidden"
       />
       <p
-        class="relative {mapLabelLayer} whitespace-nowrap text-white text-center -translate-y-[120%] text-[clamp(0.875rem,4vw,10rem)] sm:text-haven-butter sm:-rotate-8 sm:text-[clamp(1rem,3vw,10rem)] sm:-translate-y-[120%] sm:-translate-x-[40%]"
+        class="relative {mapLabelLayer} whitespace-nowrap text-white text-center -translate-y-[120%] text-[clamp(0.875rem,4vw,10rem)] sm:text-haven-butter sm:-rotate-8 sm:text-[clamp(1rem,3vw,10rem)] sm:-translate-y-[120%] sm:-translate-x-[30%]"
       >
         {mapLabel}
       </p>
