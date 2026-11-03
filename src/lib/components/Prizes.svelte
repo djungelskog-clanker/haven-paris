@@ -7,9 +7,8 @@
 
   /** What every participant goes home with. */
   const forEveryone = [
-    "un t-shirt Hack Club",
+    "un t-shirt Haven",
     "des stickers Hack Club",
-    "des cartes postales",
     "1 an de Tuta Mail",
   ];
 
