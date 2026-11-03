@@ -34,7 +34,7 @@
     aria-hidden="true"
     width="646"
     height="260"
-    class="pointer-events-none fixed right-0 top-0 -z-10 w-[min(41rem,max(46%,calc(13rem_+_8vw)))] max-w-none select-none md:w-[45%] md:right-[clamp(-3rem,-2vw,0rem)] md:top-[clamp(-3rem,-2vw,0rem)] origin-top-right scale-x-[1.35]"
+    class="pointer-events-none fixed right-0 top-0 -z-10 w-[min(41rem,max(46%,calc(13rem_+_8vw)))] max-w-none select-none md:w-[45%] md:right-[clamp(-3rem,-2vw,0rem)] md:top-[clamp(-3rem,-2vw,0rem)] origin-top-right scale-x-[1.35] scale-y-[0.75]"
   />
 
   <div
