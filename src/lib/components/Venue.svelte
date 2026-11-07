@@ -29,7 +29,7 @@
       </h3>
       <p class="mt-4 font-body text-copy text-haven-brown-dark">
         Haven Paris a lieu à l’{venue.name}, au cœur du 11e arrondissement. Les
-        portes ouvrent à 9h30 le samedi et le dimanche.
+        portes ouvrent à 10h le samedi et le dimanche.
       </p>
       <a
         href={venue.mapUrl}

@@ -165,7 +165,7 @@ export const site: SiteData = {
         day: "Samedi 14 nov.",
         items: [
           {
-            time: "9h30",
+            time: "10h",
             title: "Ouverture des portes",
             body: "Accueil et petit-déj. Essaie d’arriver avant 11h pour former ton équipe.",
           },
@@ -187,7 +187,7 @@ export const site: SiteData = {
           {
             time: "18h",
             title: "Fin de la journée",
-            body: "On se retrouve demain à 9h30 !",
+            body: "On se retrouve demain à 10h !",
           },
         ],
       },
@@ -195,7 +195,7 @@ export const site: SiteData = {
         day: "Dimanche 15 nov.",
         items: [
           {
-            time: "9h30",
+            time: "10h",
             title: "Ouverture des portes",
             body: "Petit-déj, et on reprend là où on s’était arrêtés.",
           },
