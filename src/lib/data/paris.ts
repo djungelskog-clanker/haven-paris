@@ -167,7 +167,7 @@ export const site: SiteData = {
           {
             time: "10h",
             title: "Ouverture des portes",
-            body: "Accueil et petit-déj. Essaie d’arriver avant 11h pour former ton équipe.",
+            body: "Accueil et petit-déj.",
           },
           {
             time: "10h",
