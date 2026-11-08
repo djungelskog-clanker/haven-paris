@@ -170,7 +170,7 @@ export const site: SiteData = {
             body: "Accueil et petit-déj.",
           },
           {
-            time: "10h",
+            time: "10h30",
             title: "Cérémonie d’ouverture",
             body: "On présente Haven et Hack Club, puis on forme les équipes.",
           },
