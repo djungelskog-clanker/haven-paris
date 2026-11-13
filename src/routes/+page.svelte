@@ -1,5 +1,6 @@
 <script lang="ts">
   import Meta from "$lib/components/Meta.svelte";
+  import SignupBanner from "$lib/components/SignupBanner.svelte";
   import SiteHeader from "$lib/components/SiteHeader.svelte";
   import Hero from "$lib/components/Hero.svelte";
   import About from "$lib/components/About.svelte";
@@ -115,5 +116,11 @@
     {images}
   />
 </main>
+
+<SignupBanner
+  href={signupUrl}
+  text="Dernières inscriptions : elles ferment aujourd’hui à 22h !"
+  cta="Je m’inscris"
+/>
 
 <SiteFooter {images} footer={site.footer} />
